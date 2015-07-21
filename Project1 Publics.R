@@ -9,7 +9,7 @@ url <- "https://api.vk.com/method/users.getSubscriptions?user_id="
 # Шаблон запроса членов паблика
 url2 <- "https://api.vk.com/method/groups.getMembers?group_id="
 
-# Генерируем id аккаунта с replace
+# Генерируем id аккаунта с replace (выбираем из 2.8 млн. 700 аккаунтов с повторениями)
 id_num <- sample.int(280000000, size = 700, replace = T)
 
 
