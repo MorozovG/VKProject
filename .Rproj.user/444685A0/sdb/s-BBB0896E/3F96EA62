@@ -1,0 +1,17 @@
+{
+    "contents" : "library(\"RCurl\") # Библиотека для генерации запросов к API\nlibrary(\"jsonlite\") # Библиотека для обработки JSON\nlibrary(\"stringr\") # Библиотека для работы с текстом\n\n\n# Шаблон запроса подписок аккаунта\nurl <- \"https://api.vk.com/method/users.getSubscriptions?user_id=\" \n\n# Шаблон запроса членов паблика\nurl2 <- \"https://api.vk.com/method/groups.getMembers?group_id=\"\n\n# Генерируем id аккаунта с replace (выбираем из 2.8 млн. id 700 аккаунтов с повторениями)\nid_num <- sample.int(280000000, size = 700, replace = T)\n\n\n# Функция для получения id подписок для сгенерированных аккаунтов\nget_id_public <- function(id) {\n        url_get <- str_c(url, id) # Составляем запрос к API\n        resp <- getURL(url_get) # Запрашиваем и получаем ответ\n        Sys.sleep(0.5) # Задержка для обхода ограничения на кол-во запросов в сек\n        # Обрабатываем ответ и получаем id подписок\n        fromJSON(resp)$response$groups$items \n}\n\n\n# Функция для получения кол-ва подписчиков паблика\nget_count <- function(id) {\n        url_get <- str_c(url2, id)\n        resp <- getURL(url_get)\n        Sys.sleep(0.5)\n        fromJSON(resp)$response$count\n}\n\n# Получаем, при помощи функции get_id_public, id подписок для аккаунтов в виде list\npublic_id <- sapply(id_num, get_id_public)\n\n# Преобразовываем list в data.frame\npublic_id <- unlist(public_id)\n\n# Подсчитываем кол-во попаданий для каждого id полученных пабликов\npublic_id <- table(public_id)\n\n# Преобразовываем в data.frame\npublic_id <- as.data.frame(public_id)\n\n# Сортируем в убывающем порядке\npublic_id <- public_id[order(-public_id$Freq),]\n\n# Получаем, при помощи функции get_count, кол-во подписчиков\nresult <- sapply(as.numeric(as.character(public_id$public_id[1:300])), get_count)\n\n# Объединяем полученные данные о кол-ве подписчиков с id пабликов\nresult <- cbind(as.numeric(as.character(public_id$public_id[1:300])), result)\n\n# Сортируем в убывающем порядке\nresult <- result[order(-result[,2]),]\n\n",
+    "created" : 1440014816336.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2255195636",
+    "id" : "3F96EA62",
+    "lastKnownWriteTime" : 1440596978,
+    "path" : "G:/R lang/VKProject/Project1 Publics.R",
+    "project_path" : "Project1 Publics.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

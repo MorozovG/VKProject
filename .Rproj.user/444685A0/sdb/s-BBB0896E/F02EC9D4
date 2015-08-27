@@ -1,0 +1,17 @@
+{
+    "contents" : "library(\"RCurl\")\nlibrary(\"jsonlite\")\nlibrary(\"stringr\")\n\n\n#sample.int(100000, size = 100, replace = T)\n#temp <- getURL(\"https://api.vk.com/method/friends.get?user_id=6196\")\n#fromJSON(temp)\n#getURL(\"https://api.vk.com/method/users.getSubscriptions?user_id=6196\")\n#getURL(\"https://api.vk.com/method/users.getFollowers?user_id=6196\")\n\nurl <- \"https://api.vk.com/method/friends.get?user_id=\"\nid_num <- sample.int(280000000, size = 10000, replace = T)\n\n\nget_data <- function(id) {\n        url_get <- str_c(url, id)\n        resp <- getURL(url_get)\n        #respdata <- c(respdata, fromJSON(resp)$response)\n        Sys.sleep(0.5)\n        fromJSON(resp)$response\n}\n\nget_number <- function(id) {\n        url_get <- str_c(url, id)\n        resp <- getURL(url_get)\n        Sys.sleep(0.5)\n        #num_friend <- length(fromJSON(resp)$response)\n        length(fromJSON(resp)$response)\n}\n\ntemp <- sapply(id_num, get_data)\nuntemp <- unlist(temp)\nnum_temp <- table(untemp)\nnum_temp <- as.data.frame(num_temp)\nnum_temp1 <- num_temp[order(-num_temp$Freq),]\nresult <- sapply(as.numeric(as.character(num_temp1$untemp[1:300])), get_number)\nresult1 <- cbind(as.numeric(as.character(num_temp1$untemp[1:300])), result)\nresultfin <- result1[order(-result1[,2]),]\n",
+    "created" : 1440571866303.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2284446655",
+    "id" : "F02EC9D4",
+    "lastKnownWriteTime" : 1440596981,
+    "path" : "G:/R lang/VKProject/Project1 Friends.R",
+    "project_path" : "Project1 Friends.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
