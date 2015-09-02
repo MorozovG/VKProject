@@ -10,7 +10,7 @@ url <- "https://api.vk.com/method/users.getSubscriptions?user_id="
 url2 <- "https://api.vk.com/method/users.getFollowers?user_id="
 
 # Генерируем id аккаунта с replace (выбираем из 2.8 млн. id 700 аккаунтов с повторениями)
-id_num <- sample.int(280000000, size = 300, replace = T)
+id_num <- sample.int(280000000, size = 700, replace = T)
 
 
 # Функция для получения id подписок для сгенерированных аккаунтов
